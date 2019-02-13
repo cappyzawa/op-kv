@@ -42,7 +42,7 @@ Flags:
 ```
 This Command is same as below.
 ```bash
-$ op get item [<UUID>|<name>] |  jq -r '.details.fields[] | select(.designation=="password").value'
+$ op get item [<UUID>|<name>] | jq -r '.details.fields[] | select(.designation=="password").value'
 ```
 This can adjust only _item_ subcommand.
 
