@@ -5,7 +5,11 @@ This CLI can use op (https://support.1password.com/command-line/) like as key-va
 ```bash
 $ go get github.com/cappyzawa/op-kv/cmd/op-kv
 ```
- 
+
+## Required
+* `op`: [1Password command\-line tool: Full documentation](https://support.1password.com/command-line/)
+* `jq`: [stedolan/jq: Command\-line JSON processor](https://github.com/stedolan/jq)
+
 ## Usage
 ```bash
 $ op-kv -h
