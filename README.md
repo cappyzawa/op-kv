@@ -1,4 +1,4 @@
-# op-kv
+# op-kv ![https://concourse\.ik\.am:14161/api/v1/teams/cappyzawa/pipelines/op\-kv/jobs/test\-master/badge](https://concourse.ik.am:14161/api/v1/teams/cappyzawa/pipelines/op-kv/jobs/test-master/badge)
 This CLI can use op (https://support.1password.com/command-line/) like as key-value.
 
 ## Install
