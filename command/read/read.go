@@ -1,6 +1,9 @@
 package read
 
-import "github.com/spf13/cobra"
+import (
+	"github.com/cappyzawa/op-kv/util"
+	"github.com/spf13/cobra"
+)
 
 type options struct {
 }
@@ -9,7 +12,7 @@ func NewOptions() *options {
 	return &options{}
 }
 
-func NewCmdRead() *cobra.Command {
+func NewCmdRead(f util.Factory) *cobra.Command {
 	o := NewOptions()
 	cmd := &cobra.Command{
 		Use:   "read [<UUID>|<name>]",
@@ -22,5 +25,9 @@ func NewCmdRead() *cobra.Command {
 }
 
 func (o *options) Run(cmd *cobra.Command, args []string) error {
+	if len(args) > 0 {
+		cmd.Help()
+	}
+
 	return nil
 }
