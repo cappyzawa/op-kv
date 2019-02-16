@@ -3,6 +3,8 @@ package command
 import (
 	"flag"
 
+	"github.com/cappyzawa/op-kv/command/util"
+
 	"github.com/cappyzawa/op-kv/command/read"
 	"github.com/cappyzawa/op-kv/command/write"
 	"github.com/spf13/cobra"
@@ -25,11 +27,13 @@ func NewCmd() *cobra.Command {
 	}
 
 	cmd.PersistentFlags().AddGoFlagSet(flag.CommandLine)
+
+	f := util.NewFactory()
 	group := Group{
 		Message: "Basic Commands",
 		Commands: []*cobra.Command{
-			read.NewCmdRead(),
-			write.NewCmdWrite(),
+			read.NewCmdRead(f),
+			write.NewCmdWrite(f),
 		},
 	}
 	group.Add(cmd)
