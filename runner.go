@@ -1,39 +1,17 @@
 package opkv
 
-import (
-	"bytes"
-	"io"
-	"os/exec"
-)
-
-type Runner struct {
-	Command   string
-	OutStream io.Writer
-	ErrStream io.Writer
+//go:generate counterfeiter . Runner
+type Runner interface {
+	Output(commands ...[]string) ([]byte, error)
 }
 
-func NewRunner(command string) *Runner {
-	var (
-		stdOut bytes.Buffer
-		stdErr bytes.Buffer
-	)
-	return &Runner{
-		Command:   command,
-		OutStream: &stdOut,
-		ErrStream: &stdErr,
-	}
+type runner struct {
 }
 
-func (r *Runner) Run(args []string) error {
-	cmd := exec.Command(r.Command, args...)
-	cmd.Stdout = r.OutStream
-	cmd.Stderr = r.ErrStream
-	return cmd.Run()
+func NewRunner() Runner {
+	return &runner{}
 }
 
-func (r *Runner) Output(args []string) ([]byte, error) {
-	cmd := exec.Command(r.Command, args...)
-	cmd.Stdout = r.OutStream
-	cmd.Stderr = r.ErrStream
-	return cmd.Output()
+func (r *runner) Output(commands ...[]string) ([]byte, error) {
+	return pipeline.Output(commands...)
 }
