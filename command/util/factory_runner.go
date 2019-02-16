@@ -11,6 +11,6 @@ func NewFactory() Factory {
 	return &factoryImpl{}
 }
 
-func (f *factoryImpl) CommandRunner(command string) *opkv.Runner {
-	return opkv.NewRunner(command)
+func (f *factoryImpl) CommandRunner() opkv.Runner {
+	return opkv.NewRunner()
 }

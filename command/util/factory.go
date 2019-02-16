@@ -2,6 +2,7 @@ package util
 
 import "github.com/cappyzawa/op-kv"
 
+//go:generate counterfeiter . Factory
 type Factory interface {
-	CommandRunner(command string) *opkv.Runner
+	CommandRunner() opkv.Runner
 }
