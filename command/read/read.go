@@ -1,6 +1,7 @@
 package read
 
 import (
+	"bytes"
 	"fmt"
 	"io"
 	"os"
@@ -22,23 +23,18 @@ func NewOptions(outStream, errStream io.Writer) *options {
 }
 
 func NewCmdRead(f util.Factory) *cobra.Command {
-	o := NewOptions(os.Stdout, os.Stderr)
+	o := NewOptions(os.Stdout, new(bytes.Buffer))
 	cmd := &cobra.Command{
 		Use:   "read [<UUID>|<name>]",
 		Short: "Display one password of specified item by UUID or name",
-		RunE: func(cmd *cobra.Command, args []string) error {
-			return o.Run(f, cmd, args)
+		Run: func(cmd *cobra.Command, args []string) {
+			o.Run(f, cmd, args)
 		},
 	}
 	return cmd
 }
 
-func (o *options) Run(f util.Factory, cmd *cobra.Command, args []string) error {
-	if len(args) < 1 {
-		cmd.Help()
-		return nil
-	}
-
+func (o *options) Run(f util.Factory, cmd *cobra.Command, args []string) {
 	item := args[0]
 	runner := f.CommandRunner()
 
@@ -49,9 +45,9 @@ func (o *options) Run(f util.Factory, cmd *cobra.Command, args []string) error {
 	output, err := runner.Output(opCmd, jqCmd)
 	if err != nil {
 		fmt.Fprint(o.errStream, err)
-		return err
+		return
 	}
 
 	fmt.Fprintf(o.outStream, "%s", string(output))
-	return nil
+	return
 }
