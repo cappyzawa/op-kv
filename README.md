@@ -11,6 +11,7 @@ $ go get github.com/cappyzawa/op-kv/cmd/op-kv
 * `jq`: [stedolan/jq: Command\-line JSON processor](https://github.com/stedolan/jq)
 
 ## Usage
+
 ```bash
 $ op-kv -h
 use "op" like as kv
@@ -29,6 +30,8 @@ Flags:
 
 Use "op-kv [command] --help" for more information about a command.
 ```
+
+**It need to execute `op signin` in advanced.**
 ### Read
 ```bash
 $ op-kv read -h
