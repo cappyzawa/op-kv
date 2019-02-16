@@ -5,6 +5,21 @@ This CLI can use op (https://support.1password.com/command-line/) like as key-va
 ```bash
 $ go get github.com/cappyzawa/op-kv/cmd/op-kv
 ```
+or
+```bash
+# for mac
+$ curl -sL https://github.com/cappyzawa/op-kv/releases/download/v1.0.0/op-kv-darwin-amd64 > op-kv
+$ chmod +x op-kv
+```
+
+zplug
+```zsh
+zplug "cappyzawa/op-kv", \
+    from:gh-r, \
+    as:command, \
+    rename-to:op-kv, \
+    on:"stedolan/jq"
+```
 
 ## Required
 * `op`: [1Password command\-line tool: Full documentation](https://support.1password.com/command-line/)
