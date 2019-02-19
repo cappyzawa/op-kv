@@ -18,7 +18,8 @@ zplug "cappyzawa/op-kv", \
     from:gh-r, \
     as:command, \
     rename-to:op-kv, \
-    on:"stedolan/jq"
+    on:"stedolan/jq", \
+    on:"cappyzawa/get-op"
 ```
 
 ## Required
