@@ -16,7 +16,7 @@ resources:
     webhook_token: ((webhook-token))
     source:
       uri: https://github.com/cappyzawa/op-kv
-      
+
 jobs:
   - name: test-pr
     build_logs_to_retain: 10
@@ -42,7 +42,7 @@ jobs:
           params:
             path: pr
             status: failure
-  
+
   - name: test-master
     build_logs_to_retain: 10
     plan:
