@@ -38,6 +38,7 @@ Usage:
 
 Available Commands:
   help        Help about any command
+  list        Display item titles
   read        Display one password of specified item by UUID or name
   write       Generate one password by specified item and password
 
@@ -82,3 +83,19 @@ $ D=$(op get template login | jq -c '.fields[1].value = <password>' | op encode)
 $ op create item login $D --title=<item>
 ```
 This can adjust only _login_ template.
+
+### list
+```bash
+$ op-kv list -h
+Display item titles
+
+Usage:
+  op-kv list [flags]
+
+Flags:
+  -h, --help   help for list
+```
+This Command is same as below.
+```bash
+$ op list items | jq -r ".[].overview.title"
+```
