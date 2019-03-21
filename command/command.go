@@ -3,6 +3,8 @@ package command
 import (
 	"flag"
 
+	"github.com/cappyzawa/op-kv/command/list"
+
 	"github.com/cappyzawa/op-kv/command/util"
 
 	"github.com/cappyzawa/op-kv/command/read"
@@ -34,6 +36,7 @@ func NewCmd() *cobra.Command {
 		Commands: []*cobra.Command{
 			read.NewCmdRead(f),
 			write.NewCmdWrite(f),
+			list.NewCmdList(f),
 		},
 	}
 	group.Add(cmd)
