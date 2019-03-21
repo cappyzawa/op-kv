@@ -1,3 +1,4 @@
+---
 resource_types:
   - name: pull-request
     type: docker-image
@@ -16,6 +17,22 @@ resources:
     webhook_token: ((webhook-token))
     source:
       uri: https://github.com/cappyzawa/op-kv
+  - name: release
+    type: github-release
+    source:
+      owner: cappyzawa
+      repository: op-kv
+      access_token: ((github-access-token))
+  - name: version
+    type: semver
+    source:
+      uri: git@github.com:cappyzawa/op-kv.git
+      driver: git
+      branch: version
+      private_key: ((private-key))
+      git_user: "cappyzawa@yahoo.ne.jp"
+      commit_message: "[ci skip] bump version"
+      file: VERSION
 
 jobs:
   - name: test-pr
@@ -50,3 +67,18 @@ jobs:
         trigger: true
       - task: unit-test
         file: repo/ci/tasks/unit-test.yml
+  - name: release
+    build_logs_to_retain: 10
+    plan:
+      - aggregate:
+        - get: repo
+          trigger: true
+          passed:
+            - test-master
+        - put: version
+          params:
+            bump: patch
+      - put: release
+        params:
+          name: version/version
+          tag: version/version
