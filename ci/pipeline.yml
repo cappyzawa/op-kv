@@ -30,6 +30,7 @@ resources:
       driver: git
       branch: version
       private_key: ((private-key))
+      git_user: "cappyzawa@yahoo.ne.jp"
       commit_message: "[ci skip] bump version"
       file: VERSION
 
@@ -74,13 +75,10 @@ jobs:
           trigger: true
           passed:
             - test-master
-        - get: version
+        - put: version
           params:
             bump: patch
       - put: release
         params:
           name: version/version
           tag: version/version
-      - put: version
-        params:
-          bump: patch
