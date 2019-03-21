@@ -1,5 +1,7 @@
 package opkv
 
+import "github.com/mattn/go-pipeline"
+
 //go:generate counterfeiter . Runner
 type Runner interface {
 	Output(commands ...[]string) ([]byte, error)
