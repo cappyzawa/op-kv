@@ -75,10 +75,11 @@ jobs:
           trigger: true
           passed:
             - test-master
-        - put: version
-          params:
-            bump: patch
+        - get: version
       - put: release
         params:
           name: version/version
           tag: version/version
+      - put: version
+        params:
+          bump: patch
