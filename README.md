@@ -11,10 +11,10 @@ go
 $ go get github.com/cappyzawa/op-kv/cmd/op-kv
 ```
 
-zplugin
+[zdharma/zplugin](https://github.com/zdharma/zplugin)
 ```zsh
 zplugin ice wait'2' lucid as"program" from"gh-r" \
-  has"op" mv"op-kv* -> op-kv"
+  has"op"
 zplugin light cappyzawa/op-kv
 ```
 
