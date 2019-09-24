@@ -7,7 +7,7 @@ import (
 
 	"github.com/cappyzawa/op-kv/command/read"
 	"github.com/cappyzawa/op-kv/command/util/utilfakes"
-	"github.com/cappyzawa/op-kv/op-kvfakes"
+	opkvfakes "github.com/cappyzawa/op-kv/op-kvfakes"
 )
 
 func TestOptions_Run(t *testing.T) {
@@ -29,7 +29,7 @@ func TestOptions_Run(t *testing.T) {
 			outStream := new(bytes.Buffer)
 			errStream := new(bytes.Buffer)
 			options := read.NewOptions(outStream, errStream)
-			cmd := read.NewCmdRead(f)
+			cmd := read.NewCmd(f)
 			opCmd := []string{"op", "get", "item", c.args[0]}
 			jqCmd := []string{"jq", "-r", ".details.fields[] | select(.designation==\"password\").value"}
 			runner := new(opkvfakes.FakeRunner)

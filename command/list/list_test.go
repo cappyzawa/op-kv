@@ -30,7 +30,7 @@ func TestOptions_Run(t *testing.T) {
 			outStream := new(bytes.Buffer)
 			errStream := new(bytes.Buffer)
 			options := list.NewOptions(outStream, errStream)
-			cmd := list.NewCmdList(f)
+			cmd := list.NewCmd(f)
 			opCmd := []string{"op", "list", "items"}
 			jqCmd := []string{"jq", "-r", ".[]overview.title"}
 			runner := new(opkvfakes.FakeRunner)

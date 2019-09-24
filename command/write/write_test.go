@@ -35,7 +35,7 @@ func TestOptions_Run(t *testing.T) {
 			outStream := new(bytes.Buffer)
 			errStream := new(bytes.Buffer)
 			options := write.NewOptions(outStream, errStream)
-			cmd := write.NewCmdWrite(f)
+			cmd := write.NewCmd(f)
 			opTmpCmd := []string{"op", "get", "template", "login"}
 			jqCmd := []string{"jq", "-c", fmt.Sprintf(".fields[1].value = \"%s\"", password)}
 			opEncCmd := []string{"op", "encode"}
