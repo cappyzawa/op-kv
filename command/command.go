@@ -12,15 +12,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type Group struct {
-	Message  string
-	Commands []*cobra.Command
-}
-
-func (cg Group) Add(c *cobra.Command) {
-	c.AddCommand(cg.Commands...)
-}
-
+// NewCmd initializes command.
 func NewCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "op-kv",
@@ -31,15 +23,13 @@ func NewCmd() *cobra.Command {
 	cmd.PersistentFlags().AddGoFlagSet(flag.CommandLine)
 
 	f := util.NewFactory()
-	group := Group{
-		Message: "Basic Commands",
-		Commands: []*cobra.Command{
-			read.NewCmdRead(f),
-			write.NewCmdWrite(f),
-			list.NewCmdList(f),
-		},
-	}
-	group.Add(cmd)
+
+	cmd.AddCommand(
+		read.NewCmd(f),
+		write.NewCmd(f),
+		list.NewCmd(f),
+	)
+
 	return cmd
 }
 
