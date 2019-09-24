@@ -14,8 +14,6 @@ jobs:
     - name: install counterfeiter
       run: "go get github.com/maxbrunsfeld/counterfeiter"
     - uses: actions/checkout@master
-    - name: add GOPATH/bin to PATH
-      run: "export PATH=$PATH:$(go env GOPATH)/bin"
     - uses: docker://goreleaser/goreleaser
       env:
         GITHUB_TOKEN: ${{ secrets.TOKEN }}
