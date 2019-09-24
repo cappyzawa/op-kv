@@ -1,0 +1,16 @@
+name: PR
+on: [pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        go: ["1.11", "1.12", "1.13"]
+    steps:
+    - uses: actions/setup-go@master
+      with:
+        go-version: ${{ matrix.go }}
+    - uses: actions/checkout@master
+    - name: go test
+      run: "go test -v -race -coverprofile=coverage.txt -covermode=atomic ./..."
