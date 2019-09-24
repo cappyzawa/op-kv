@@ -11,14 +11,11 @@ go
 $ go get github.com/cappyzawa/op-kv/cmd/op-kv
 ```
 
-zplug
+zplugin
 ```zsh
-zplug "cappyzawa/op-kv", \
-    from:gh-r, \
-    as:command, \
-    rename-to:op-kv, \
-    on:"stedolan/jq", \
-    on:"cappyzawa/get-op"
+zplugin ice wait'2' lucid as"program" from"gh-r" \
+  has"op" mv"op-kv* -> op-kv"
+zplugin light cappyzawa/op-kv
 ```
 
 ## Required
