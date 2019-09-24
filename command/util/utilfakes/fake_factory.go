@@ -2,10 +2,10 @@
 package utilfakes
 
 import (
-	sync "sync"
+	"sync"
 
 	opkv "github.com/cappyzawa/op-kv"
-	util "github.com/cappyzawa/op-kv/command/util"
+	"github.com/cappyzawa/op-kv/command/util"
 )
 
 type FakeFactory struct {

@@ -2,7 +2,7 @@
 package opkvfakes
 
 import (
-	sync "sync"
+	"sync"
 
 	opkv "github.com/cappyzawa/op-kv"
 )
