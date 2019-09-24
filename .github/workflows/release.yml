@@ -9,11 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - uses: actions/setup-go@master
-      with:
-        go-version: "1.13"
-    - name: install counterfieter
-      run: "go get github.com/maxbrunsfeld/counterfeiter"
     - name: add GOPATH/bin to PATH
       run: "export PATH=$PATH:$(go env GOPATH)/bin"
     - uses: docker://goreleaser/goreleaser
