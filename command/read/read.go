@@ -10,19 +10,22 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type options struct {
+// Options describes read options
+type Options struct {
 	outStream io.Writer
 	errStream io.Writer
 }
 
-func NewOptions(outStream, errStream io.Writer) *options {
-	return &options{
+// NewOptions initializes read options
+func NewOptions(outStream, errStream io.Writer) *Options {
+	return &Options{
 		outStream: outStream,
 		errStream: errStream,
 	}
 }
 
-func NewCmdRead(f util.Factory) *cobra.Command {
+// NewCmd initializes read command
+func NewCmd(f util.Factory) *cobra.Command {
 	o := NewOptions(os.Stdout, new(bytes.Buffer))
 	cmd := &cobra.Command{
 		Use:   "read [<UUID>|<name>]",
@@ -34,7 +37,8 @@ func NewCmdRead(f util.Factory) *cobra.Command {
 	return cmd
 }
 
-func (o *options) Run(f util.Factory, cmd *cobra.Command, args []string) {
+// Run runs read command
+func (o *Options) Run(f util.Factory, cmd *cobra.Command, args []string) {
 	item := args[0]
 	runner := f.CommandRunner()
 

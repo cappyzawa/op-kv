@@ -10,19 +10,22 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type options struct {
+// Options describes list options
+type Options struct {
 	outStream io.Writer
 	errStream io.Writer
 }
 
-func NewOptions(outStream, errStream io.Writer) *options {
-	return &options{
+// NewOptions initializes list options
+func NewOptions(outStream, errStream io.Writer) *Options {
+	return &Options{
 		outStream: outStream,
 		errStream: errStream,
 	}
 }
 
-func NewCmdList(f util.Factory) *cobra.Command {
+// NewCmd initializes list command
+func NewCmd(f util.Factory) *cobra.Command {
 	o := NewOptions(os.Stdout, new(bytes.Buffer))
 	cmd := &cobra.Command{
 		Use:   "list",
@@ -34,7 +37,8 @@ func NewCmdList(f util.Factory) *cobra.Command {
 	return cmd
 }
 
-func (o *options) Run(f util.Factory, cmd *cobra.Command, args []string) {
+// Run runs list command
+func (o *Options) Run(f util.Factory, cmd *cobra.Command, args []string) {
 	runner := f.CommandRunner()
 
 	// op list items | jq -r ".[].overview.title"

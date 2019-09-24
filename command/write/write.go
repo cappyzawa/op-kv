@@ -11,19 +11,22 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type options struct {
+// Options describes write options
+type Options struct {
 	outStream io.Writer
 	errStream io.Writer
 }
 
-func NewOptions(outStream, errStream io.Writer) *options {
-	return &options{
+// NewOptions initializes write options
+func NewOptions(outStream, errStream io.Writer) *Options {
+	return &Options{
 		outStream: outStream,
 		errStream: errStream,
 	}
 }
 
-func NewCmdWrite(f util.Factory) *cobra.Command {
+// NewCmd initializes write command
+func NewCmd(f util.Factory) *cobra.Command {
 	o := NewOptions(os.Stdout, new(bytes.Buffer))
 	cmd := &cobra.Command{
 		Use:   "write <item> <password>",
@@ -35,7 +38,8 @@ func NewCmdWrite(f util.Factory) *cobra.Command {
 	return cmd
 }
 
-func (o *options) Run(f util.Factory, cmd *cobra.Command, args []string) {
+// Run runs write command
+func (o *Options) Run(f util.Factory, cmd *cobra.Command, args []string) {
 	item := args[0]
 	password := args[1]
 
