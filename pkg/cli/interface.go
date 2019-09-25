@@ -1,6 +1,10 @@
 package cli
 
-import "io"
+import (
+	"io"
+
+	"github.com/cappyzawa/op-kv/pkg/helper"
+)
 
 // Stream describes stream of cli
 type Stream struct {
@@ -11,5 +15,5 @@ type Stream struct {
 
 // Params interface provides
 type Params interface {
-	Runner()
+	Runner(opts ...helper.Opts) helper.Runner
 }
