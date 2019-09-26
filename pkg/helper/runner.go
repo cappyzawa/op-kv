@@ -1,14 +1,16 @@
 package helper
 
 import (
-	"bytes"
+	"io"
+	"os"
 	"os/exec"
 )
 
 type runner struct {
 	Path string
-	Out  *bytes.Buffer
-	Err  *bytes.Buffer
+	Out  io.Writer
+	Err  io.Writer
+	In   io.Reader
 }
 
 // Opts describes options for Runner
@@ -22,29 +24,39 @@ func Path(path string) Opts {
 }
 
 // Out sets Out of Opts optionally
-func Out(out *bytes.Buffer) Opts {
+func Out(out io.Writer) Opts {
 	return func(o *runner) {
 		o.Out = out
 	}
 }
 
 // Err sets Err of Opts optionally
-func Err(err *bytes.Buffer) Opts {
+func Err(err io.Writer) Opts {
 	return func(o *runner) {
 		o.Err = err
+	}
+}
+
+// In sets In of Opts optionally
+func In(in io.Reader) Opts {
+	return func(o *runner) {
+		o.In = in
 	}
 }
 
 //go:generate counterfeiter . Runner
 // Runner runs ex command
 type Runner interface {
-	Output(commands []string) ([]byte, error)
+	Output(args []string) ([]byte, error)
+	OutputWithIn(args []string, in string) ([]byte, error)
 }
 
 // NewRunner initilizes runner
 func NewRunner(opts ...Opts) Runner {
 	r := &runner{
 		Path: "op",
+		Out:  os.Stdout,
+		Err:  os.Stderr,
 	}
 	for _, opt := range opts {
 		opt(r)
@@ -54,10 +66,30 @@ func NewRunner(opts ...Opts) Runner {
 
 func (r *runner) Output(args []string) ([]byte, error) {
 	c := exec.Command(r.Path, args...)
-	c.Stdout = r.Out
 	c.Stderr = r.Err
-	if err := c.Run(); err != nil {
+	output, err := c.Output()
+	if err != nil {
 		return nil, err
 	}
-	return r.Out.Bytes(), nil
+	return output, nil
+}
+
+func (r *runner) OutputWithIn(args []string, in string) ([]byte, error) {
+	c := exec.Command(r.Path, args...)
+	c.Stderr = r.Err
+	stdin, err := c.StdinPipe()
+	if err != nil {
+		return nil, err
+	}
+	go func() {
+		defer stdin.Close()
+		io.WriteString(stdin, in)
+	}()
+
+	output, err := c.Output()
+	if err != nil {
+		return nil, err
+	}
+
+	return output, nil
 }
