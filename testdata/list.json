@@ -1,0 +1,52 @@
+[
+  {
+    "templateUuid": "001",
+    "trashed": "N",
+    "createdAt": "2018-04-09T08:11:59Z",
+    "updatedAt": "2019-02-13T13:06:48Z",
+    "itemVersion": 5,
+    "overview": {
+      "URLs": [
+        {
+          "l": "web",
+          "u": "https://test.site"
+        }
+      ],
+      "ps": 78,
+      "title": "test1",
+      "url": "https://test1.com"
+    }
+  },
+  {
+    "templateUuid": "005",
+    "createdAt": "2018-06-03T07:01:07Z",
+    "updatedAt": "2018-06-03T07:01:07Z",
+    "itemVersion": 1,
+    "overview": {
+      "URLs": [
+        {
+          "u": "https://test.site"
+        }
+      ],
+      "ps": 100,
+      "title": "test2",
+      "url": "https://test2.com"
+    }
+  },
+  {
+    "templateUuid": "008",
+    "createdAt": "2018-06-03T07:01:07Z",
+    "updatedAt": "2018-06-03T07:01:07Z",
+    "itemVersion": 1,
+    "overview": {
+      "URLs": [
+        {
+          "u": "https://test.site"
+        }
+      ],
+      "ps": 100,
+      "title": "test3",
+      "url": "https://test3.com"
+    }
+  }
+]

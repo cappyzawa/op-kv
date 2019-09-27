@@ -1,13 +1,11 @@
-package read_test
+package list_test
 
 import (
 	"bytes"
-	"errors"
 	"io/ioutil"
-	"strings"
 	"testing"
 
-	"github.com/cappyzawa/op-kv/pkg/cmd/read"
+	"github.com/cappyzawa/op-kv/pkg/cmd/list"
 	"github.com/cappyzawa/op-kv/pkg/helper"
 	"github.com/cappyzawa/op-kv/pkg/mock"
 	"github.com/spf13/cobra"
@@ -16,7 +14,7 @@ import (
 func TestOptionsRun(t *testing.T) {
 	r := &mock.Runner{}
 	p := &mock.Params{}
-	o := read.NewOptions()
+	o := list.NewOptions()
 	st := "session token"
 	o.SessionToken = &st
 
@@ -29,20 +27,8 @@ func TestOptionsRun(t *testing.T) {
 		{
 			name:     "with zero args",
 			args:     []string{},
-			expect:   "",
-			existErr: true,
-		},
-		{
-			name:     "with an item arg",
-			args:     []string{"test"},
-			expect:   "password",
+			expect:   "test1\ntest2\ntest3\n",
 			existErr: false,
-		},
-		{
-			name:     "item is missing",
-			args:     []string{"missing item"},
-			expect:   "",
-			existErr: true,
 		},
 	}
 
@@ -55,10 +41,7 @@ func TestOptionsRun(t *testing.T) {
 			cc.SetOut(outStream)
 			cc.SetErr(errStream)
 			r.MockOutput = func(args []string) ([]byte, error) {
-				if strings.Contains(c.name, "missing") {
-					return nil, errors.New("missing item")
-				}
-				return ioutil.ReadFile("../../../testdata/op_get.json")
+				return ioutil.ReadFile("../../../testdata/list.json")
 			}
 			p.MockRunner = func(opts ...helper.Opts) helper.Runner {
 				return r

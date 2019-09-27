@@ -67,7 +67,7 @@ func TestOptionsRun(t *testing.T) {
 				t.Error("error should be occurred, but it doesn't occurred")
 			}
 			if outStream.String() != c.expect {
-				t.Errorf("stdout should be password, but actual is %v", outStream.String())
+				t.Errorf("stdout should be %v, but actual is %v", c.expect, outStream.String())
 			}
 		})
 	}
