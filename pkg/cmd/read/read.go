@@ -25,7 +25,7 @@ func NewOptions() *Options {
 func NewCmd(s *cli.Stream, p cli.Params) *cobra.Command {
 	o := NewOptions()
 	cmd := &cobra.Command{
-		Use:   "read [<UUID>|<name>]",
+		Use:   "read <key>",
 		Short: "Display one password of specified item by UUID or name",
 		PreRunE: func(cmd *cobra.Command, args []string) error {
 			var err error

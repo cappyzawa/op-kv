@@ -1,6 +1,8 @@
 package helper
 
 import (
+	"bytes"
+	"fmt"
 	"io"
 	"os"
 	"os/exec"
@@ -78,6 +80,8 @@ func (r *runner) Output(args []string) ([]byte, error) {
 func (r *runner) OutputWithIn(args []string, in string) ([]byte, error) {
 	c := exec.Command(r.Path, args...)
 	c.Stderr = r.Err
+	eS := new(bytes.Buffer)
+	c.Stderr = eS
 	stdin, err := c.StdinPipe()
 	if err != nil {
 		return nil, err
@@ -89,6 +93,7 @@ func (r *runner) OutputWithIn(args []string, in string) ([]byte, error) {
 
 	output, err := c.Output()
 	if err != nil {
+		fmt.Println(eS.String())
 		return nil, err
 	}
 
