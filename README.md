@@ -72,10 +72,13 @@ Usage:
 Flags:
   -h, --help   help for read
 ```
+
 This Command is same as below.
+
 ```bash
 $ op get item [<UUID>|<name>] | jq -r '.details.fields[] | select(.designation=="password").value'
 ```
+
 This can adjust only _item_ subcommand.
 
 ### write
@@ -89,11 +92,14 @@ Usage:
 Flags:
   -h, --help   help for write
 ```
+
 This Command is same as below.
+
 ```bash
 $ D=$(op get template login | jq -c '.fields[1].value = <password>' | op encode)
 $ op create item login $D --title=<item>
 ```
+
 This can adjust only _login_ template.
 
 ### list
@@ -107,7 +113,9 @@ Usage:
 Flags:
   -h, --help   help for list
 ```
+
 This Command is same as below.
+
 ```bash
 $ op list items | jq -r ".[].overview.title"
 ```
