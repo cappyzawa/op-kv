@@ -7,7 +7,6 @@ import (
 	"github.com/cappyzawa/op-kv/pkg/cli"
 	"github.com/cappyzawa/op-kv/pkg/flags"
 	"github.com/cappyzawa/op-kv/pkg/helper"
-	"github.com/savaki/jq"
 	"github.com/spf13/cobra"
 )
 
@@ -67,26 +66,20 @@ func (o *Options) Run(p cli.Params, c *cobra.Command, args []string) error {
 		return fmt.Errorf("failed to execute op command")
 	}
 
-	filter, err := jq.Parse(".details.fields")
-	if err != nil {
-		return err
-	}
-	filtered, err := filter.Apply(opOut)
-	if err != nil {
-		return fmt.Errorf("failed to fileter by jq: %v", err)
-	}
-
-	var obj []map[string]string
-	if err := json.Unmarshal(filtered, &obj); err != nil {
+	var obj map[string]interface{}
+	if err := json.Unmarshal(opOut, &obj); err != nil {
 		return err
 	}
 
-	for _, o := range obj {
-		name, ok := o["name"]
+	fields := obj["details"].(map[string]interface{})["fields"].([]interface{})
+
+	for _, f := range fields {
+		ff := f.(map[string]interface{})
+		name, ok := ff["name"].(string)
 		if !ok || name != "password" {
 			continue
 		}
-		value := o["value"]
+		value := ff["value"].(string)
 		c.Printf(value)
 		return nil
 	}
