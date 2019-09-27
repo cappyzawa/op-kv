@@ -2,7 +2,7 @@ package cli
 
 import "github.com/cappyzawa/op-kv/pkg/helper"
 
-// OpKvParams describes paramters
+// OpKvParams describes parameters
 type OpKvParams struct {
 }
 
