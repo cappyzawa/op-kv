@@ -1,0 +1,19 @@
+{
+  "notesPlain": "",
+  "sections": [],
+  "passwordHistory": [],
+  "fields": [
+    {
+      "value": "",
+      "name": "username",
+      "type": "T",
+      "designation": "username"
+    },
+    {
+      "value": "",
+      "name": "password",
+      "type": "P",
+      "designation": "password"
+    }
+  ]
+}

@@ -1,16 +1,18 @@
 package main
 
 import (
-	"fmt"
 	"os"
 
-	"github.com/cappyzawa/op-kv/command"
+	"github.com/cappyzawa/op-kv/pkg/cli"
+	"github.com/cappyzawa/op-kv/pkg/cmd"
 )
 
 func main() {
-	cmd := command.NewCmd()
-	if err := cmd.Execute(); err != nil {
-		fmt.Fprintf(os.Stderr, "%v\n", err)
-		os.Exit(1)
+	s := &cli.Stream{
+		In:  os.Stdin,
+		Out: os.Stdout,
+		Err: os.Stderr,
 	}
+	c := cmd.NewCmd(s)
+	c.Execute()
 }
