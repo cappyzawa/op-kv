@@ -30,7 +30,7 @@ func AddOpOptions(cmd *cobra.Command) {
 	}
 	cmd.PersistentFlags().StringVarP(
 		&SubDomain, "subdomain", "d", subdomain,
-		"password for 1password",
+		"subdomain of 1password",
 	)
 }
 

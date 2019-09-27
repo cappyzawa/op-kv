@@ -20,9 +20,20 @@ zplugin light cappyzawa/op-kv
 
 ## Required
 * `op`: [1Password command\-line tool: Full documentation](https://support.1password.com/command-line/)
-* `jq`: [stedolan/jq: Command\-line JSON processor](https://github.com/stedolan/jq)
 
 ## Usage
+This cli required `$XDG_CONFIG_HOME/.op/config` (or `$HOME/.op/config`) file. This file is created by executing [`op signin`](https://support.1password.com/command-line/#sign-in-or-out).
+```bash
+$ op signin -h
+usage: op signin <signinaddress> <emailaddress>
+
+Example account details:
+
+   <signinaddress>   example.1password.com
+   <emailaddress>    user@example.com
+```
+
+If you set `OP_PASSWORD` as master password to ENV var, `op-kv` command is very easy.
 
 ```bash
 $ op-kv -h
@@ -39,12 +50,17 @@ Available Commands:
   write       Generate one password by specified item and password
 
 Flags:
-  -h, --help   help for op-kv
+  -h, --help               help for op-kv
+  -p, --password string    password for 1password
+  -d, --subdomain string   subdomain of 1password 
 
 Use "op-kv [command] --help" for more information about a command.
 ```
 
-**It need to execute `op signin` in advanced.**
+if `-p` is not set, `$OP_PASSWORD` is used as password.
+
+And if `-d` is not set, this cli access to latest signin subdomain.
+
 ### Read
 ```bash
 $ op-kv read -h
