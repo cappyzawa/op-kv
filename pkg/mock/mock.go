@@ -1,4 +1,4 @@
-package mock_test
+package mock
 
 import (
 	"github.com/cappyzawa/op-kv/pkg/cli"

@@ -40,13 +40,6 @@ func Err(err io.Writer) Opts {
 	}
 }
 
-// In sets In of Opts optionally
-func In(in io.Reader) Opts {
-	return func(o *runner) {
-		o.In = in
-	}
-}
-
 // Runner runs ex command
 type Runner interface {
 	Output(args []string) ([]byte, error)
