@@ -1,0 +1,40 @@
+{
+  "uuid": "uuid",
+  "templateUuid": "001",
+  "trashed": "N",
+  "createdAt": "2017-10-14T09:41:36Z",
+  "updatedAt": "2019-05-02T16:18:40Z",
+  "changerUuid": "changeruuid",
+  "itemVersion": 10,
+  "vaultUuid": "vaultuuid",
+  "details": {
+    "fields": [
+      {
+        "designation": "username",
+        "id": "ap_email;opid=__15",
+        "name": "email",
+        "type": "E",
+        "value": "email@com"
+      },
+      {
+        "designation": "password",
+        "id": "ap_password;opid=__17",
+        "name": "password",
+        "type": "P",
+        "value": "password"
+      },
+      {
+        "id": "signInSubmit;opid=__18",
+        "name": "",
+        "type": "I",
+        "value": ""
+      },
+      {
+        "id": ";opid=__19",
+        "name": "rememberMe",
+        "type": "C",
+        "value": ""
+      }
+    ]
+  }
+}

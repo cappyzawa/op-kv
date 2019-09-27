@@ -14,7 +14,5 @@ func main() {
 		Err: os.Stderr,
 	}
 	c := cmd.NewCmd(s)
-	if err := c.Execute(); err != nil {
-		os.Exit(1)
-	}
+	c.Execute()
 }

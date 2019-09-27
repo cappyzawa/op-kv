@@ -4,6 +4,7 @@ import (
 	"io"
 	"os"
 	"os/exec"
+	"strings"
 )
 
 type runner struct {
@@ -44,11 +45,11 @@ func In(in io.Reader) Opts {
 	}
 }
 
-//go:generate counterfeiter . Runner
 // Runner runs ex command
 type Runner interface {
 	Output(args []string) ([]byte, error)
 	OutputWithIn(args []string, in string) ([]byte, error)
+	Signin(subdomain, password string) (*string, error)
 }
 
 // NewRunner initilizes runner
@@ -92,4 +93,21 @@ func (r *runner) OutputWithIn(args []string, in string) ([]byte, error) {
 	}
 
 	return output, nil
+}
+
+// Signin gets session token of subdomain using by password
+func (r *runner) Signin(subdomain, password string) (*string, error) {
+	// overwride r.Path with "op"
+	if r.Path != "op" {
+		r.Path = "op"
+	}
+
+	// get a session token
+	st, err := r.OutputWithIn([]string{"signin", subdomain, "--output=raw"}, password)
+	if err != nil {
+		return nil, err
+	}
+
+	trimmedSt := strings.TrimSpace(string(st))
+	return &trimmedSt, nil
 }

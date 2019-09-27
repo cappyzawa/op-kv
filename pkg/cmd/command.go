@@ -12,9 +12,10 @@ import (
 // NewCmd initializes command.
 func NewCmd(s *cli.Stream) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "op-kv",
-		Short: "use \"op\" like as kv",
-		Run:   runHelp,
+		Use:          "op-kv",
+		Short:        "use \"op\" like as kv",
+		Run:          runHelp,
+		SilenceUsage: true,
 	}
 
 	flags.AddOpOptions(cmd)
