@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	UsernameLen = 20
+	UsernameLen = 30
 	PasswordLen = 60
 )
 
@@ -43,13 +43,13 @@ func NewPrinter(opts ...PrinterOpts) Printer {
 
 // Pair prints username & password
 func (p *printer) Pair(username, password string) error {
-	_, err := fmt.Fprintf(p.Out, "| %-20s| %-60s|\n", username, password)
+	_, err := fmt.Fprintf(p.Out, "| %-30s| %-60s|\n", username, password)
 	return err
 }
 
 // Header prints "USERNAME" and "PASSWORD" as header
 func (p *printer) Header() (err error) {
-	_, err = fmt.Fprintf(p.Out, "| %-20s| %-60s|\n", "USERNAME", "PASSWORD")
+	_, err = fmt.Fprintf(p.Out, "| %-30s| %-60s|\n", "USERNAME", "PASSWORD")
 	for i := 0; i < UsernameLen+PasswordLen+3+2; i++ {
 		_, err = fmt.Fprint(p.Out, "-")
 	}

@@ -33,33 +33,43 @@ func TestNewCmd(t *testing.T) {
 }
 
 func TestOptionsRun(t *testing.T) {
-	r := &mock.Runner{}
+	runner := &mock.Runner{}
 	p := &mock.Params{}
-	o := read.NewOptions()
-	st := "session token"
-	o.SessionToken = &st
 
 	cases := []struct {
 		name     string
 		args     []string
+		options  *read.Options
 		expect   string
 		existErr bool
 	}{
 		{
 			name:     "with zero args",
 			args:     []string{},
+			options:  read.NewOptions(),
 			expect:   "",
 			existErr: true,
 		},
 		{
 			name:     "with an item arg",
 			args:     []string{"test"},
-			expect:   "password",
+			options:  read.NewOptions(),
+			expect:   "testPassword",
+			existErr: false,
+		},
+		{
+			name: "with an item arg and table flag",
+			args: []string{"test"},
+			options: &read.Options{
+				Table: true,
+			},
+			expect:   "email@com",
 			existErr: false,
 		},
 		{
 			name:     "item is missing",
 			args:     []string{"missing item"},
+			options:  read.NewOptions(),
 			expect:   "",
 			existErr: true,
 		},
@@ -73,24 +83,29 @@ func TestOptionsRun(t *testing.T) {
 			errStream := new(bytes.Buffer)
 			cc.SetOut(outStream)
 			cc.SetErr(errStream)
-			r.MockOutput = func(args []string) ([]byte, error) {
+			runner.MockOutput = func(args []string) ([]byte, error) {
 				if strings.Contains(c.name, "missing") {
 					return nil, errors.New("missing item")
 				}
 				return ioutil.ReadFile("../../../testdata/op_get.json")
 			}
 			p.MockRunner = func(opts ...helper.RunnerOpts) helper.Runner {
-				return r
+				return runner
 			}
-			err := o.Run(p, cc, c.args)
+			p.MockPrinter = func(opts ...helper.PrinterOpts) helper.Printer {
+				return helper.NewPrinter(helper.PrinterOut(outStream))
+			}
+			st := "session token"
+			c.options.SessionToken = &st
+			err := c.options.Run(p, cc, c.args)
 			if !c.existErr && err != nil {
 				t.Errorf("stderr should not be occurred, but actual is %v", err)
 			}
 			if c.existErr && err == nil {
 				t.Error("error should be occurred, but it doesn't occurred")
 			}
-			if outStream.String() != c.expect {
-				t.Errorf("stdout should be %v, but actual is %v", c.expect, outStream.String())
+			if !strings.Contains(outStream.String(), c.expect) {
+				t.Errorf("stdout should contain %v, but actual is %v", c.expect, outStream.String())
 			}
 		})
 	}

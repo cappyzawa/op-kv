@@ -14,6 +14,8 @@ import (
 // Options describes write options
 type Options struct {
 	SessionToken *string
+	Password     string
+	Username     string
 }
 
 // NewOptions initializes write options
@@ -44,6 +46,9 @@ func NewCmd(s *cli.Stream, p cli.Params) *cobra.Command {
 		},
 	}
 
+	cmd.Flags().StringVarP(&o.Password, "password", "p", "", "register password to item(key)")
+	cmd.Flags().StringVarP(&o.Username, "username", "u", "", "register username to item(key)")
+
 	cmd.SetOutput(s.Out)
 	cmd.SetErr(s.Err)
 	return cmd
@@ -51,12 +56,11 @@ func NewCmd(s *cli.Stream, p cli.Params) *cobra.Command {
 
 // Run runs write command
 func (o *Options) Run(p cli.Params, c *cobra.Command, args []string) error {
-	if len(args) != 2 {
+	if len(args) != 1 {
 		c.Help()
 		return fmt.Errorf("see Usage")
 	}
 	key := args[0]
-	value := args[1]
 
 	runner := p.Runner(
 		helper.RunnerOut(c.OutOrStdout()),
@@ -78,8 +82,10 @@ func (o *Options) Run(p cli.Params, c *cobra.Command, args []string) error {
 	fields := obj["fields"].([]interface{})
 	for _, f := range fields {
 		m := f.(map[string]interface{})
-		if m["name"].(string) == "password" {
-			m["value"] = value
+		if m["designation"].(string) == "password" {
+			m["value"] = o.Password
+		} else if m["designation"] == "username" {
+			m["value"] = o.Username
 		}
 	}
 
@@ -97,6 +103,6 @@ func (o *Options) Run(p cli.Params, c *cobra.Command, args []string) error {
 		return err
 	}
 
-	c.Printf("success to write password to \"%s\"\n", key)
+	c.Printf("success to write password (%s) and username (%s) to \"%s\"\n", o.Password, o.Username, key)
 	return nil
 }

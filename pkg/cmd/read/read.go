@@ -13,6 +13,7 @@ import (
 // Options describes read options
 type Options struct {
 	SessionToken *string
+	Table        bool
 }
 
 // NewOptions initializes read options
@@ -43,6 +44,7 @@ func NewCmd(s *cli.Stream, p cli.Params) *cobra.Command {
 		},
 	}
 
+	cmd.Flags().BoolVarP(&o.Table, "table", "", false, "Print username and password of the item as Table")
 	cmd.SetOutput(s.Out)
 	cmd.SetErr(s.Err)
 	return cmd
@@ -73,15 +75,33 @@ func (o *Options) Run(p cli.Params, c *cobra.Command, args []string) error {
 
 	fields := obj["details"].(map[string]interface{})["fields"].([]interface{})
 
+	printer := p.Printer(
+		helper.PrinterOut(c.OutOrStdout()),
+	)
+	var username, password string
 	for _, f := range fields {
 		ff := f.(map[string]interface{})
-		name, ok := ff["name"].(string)
-		if !ok || name != "password" {
+		name, ok := ff["designation"].(string)
+		if !ok {
 			continue
 		}
+
 		value := ff["value"].(string)
-		c.Printf(value)
+		if name == "password" {
+			password = value
+		} else if name == "username" {
+			username = value
+		}
+	}
+
+	if username == "" && password == "" {
+		return fmt.Errorf("not exist \"%s\"", item)
+	}
+	if o.Table {
+		printer.Header()
+		printer.Pair(username, password)
 		return nil
 	}
-	return fmt.Errorf("not exist %s", item)
+	c.Print(password)
+	return nil
 }

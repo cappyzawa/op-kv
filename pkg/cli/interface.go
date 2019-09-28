@@ -16,4 +16,5 @@ type Stream struct {
 // Params interface provides
 type Params interface {
 	Runner(opts ...helper.RunnerOpts) helper.Runner
+	Printer(opts ...helper.PrinterOpts) helper.Printer
 }
