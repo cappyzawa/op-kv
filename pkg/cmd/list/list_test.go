@@ -62,7 +62,7 @@ func TestOptionsRun(t *testing.T) {
 			r.MockOutput = func(args []string) ([]byte, error) {
 				return ioutil.ReadFile("../../../testdata/list.json")
 			}
-			p.MockRunner = func(opts ...helper.Opts) helper.Runner {
+			p.MockRunner = func(opts ...helper.RunnerOpts) helper.Runner {
 				return r
 			}
 			err := o.Run(p, cc, c.args)

@@ -14,28 +14,28 @@ func TestRunnerOutput(t *testing.T) {
 	)
 	cases := []struct {
 		name     string
-		path     helper.Opts
+		path     helper.RunnerOpts
 		args     []string
 		expect   string
 		existErr bool
 	}{
 		{
 			name:     "echo",
-			path:     helper.Path("echo"),
+			path:     helper.RunnerPath("echo"),
 			args:     []string{"-n", "test"},
 			expect:   "test",
 			existErr: false,
 		},
 		{
 			name:     "invalid path",
-			path:     helper.Path("invalid"),
+			path:     helper.RunnerPath("invalid"),
 			args:     []string{},
 			expect:   "",
 			existErr: true,
 		},
 		{
 			name:     "date with invalid args",
-			path:     helper.Path("date"),
+			path:     helper.RunnerPath("date"),
 			args:     []string{"--invalid"},
 			expect:   "",
 			existErr: true,
@@ -48,9 +48,10 @@ func TestRunnerOutput(t *testing.T) {
 			outStream = new(bytes.Buffer)
 			errStream = new(bytes.Buffer)
 			runner := helper.NewRunner(c.path,
-				helper.Out(outStream),
-				helper.Err(errStream))
+				helper.RunnerOut(outStream),
+				helper.RunnerErr(errStream))
 			out, err := runner.Output(c.args)
+
 			if !c.existErr && err != nil {
 				t.Errorf("error should not be occurred, but actual is %v", err)
 			}
@@ -71,7 +72,7 @@ func TestRunnerOutputWithIn(t *testing.T) {
 	)
 	cases := []struct {
 		name     string
-		path     helper.Opts
+		path     helper.RunnerOpts
 		args     []string
 		in       string
 		expect   string
@@ -79,7 +80,7 @@ func TestRunnerOutputWithIn(t *testing.T) {
 	}{
 		{
 			name:     "cat",
-			path:     helper.Path("cat"),
+			path:     helper.RunnerPath("cat"),
 			args:     []string{},
 			in:       "test",
 			expect:   "test",
@@ -87,7 +88,7 @@ func TestRunnerOutputWithIn(t *testing.T) {
 		},
 		{
 			name:     "cat with empty string",
-			path:     helper.Path("cat"),
+			path:     helper.RunnerPath("cat"),
 			args:     []string{},
 			in:       "",
 			expect:   "",
@@ -95,7 +96,7 @@ func TestRunnerOutputWithIn(t *testing.T) {
 		},
 		{
 			name:     "invalid path",
-			path:     helper.Path("invalid"),
+			path:     helper.RunnerPath("invalid"),
 			args:     []string{},
 			in:       "",
 			expect:   "",
@@ -109,8 +110,8 @@ func TestRunnerOutputWithIn(t *testing.T) {
 			outStream = new(bytes.Buffer)
 			errStream = new(bytes.Buffer)
 			runner := helper.NewRunner(c.path,
-				helper.Out(outStream),
-				helper.Err(errStream))
+				helper.RunnerOut(outStream),
+				helper.RunnerErr(errStream))
 			out, err := runner.OutputWithIn(c.args, c.in)
 			if !c.existErr && err != nil {
 				t.Errorf("error should not be occurred, but actual is %v", err)

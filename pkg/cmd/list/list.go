@@ -51,8 +51,8 @@ func NewCmd(s *cli.Stream, p cli.Params) *cobra.Command {
 // Run runs list command
 func (o *Options) Run(p cli.Params, c *cobra.Command, args []string) error {
 	runner := p.Runner(
-		helper.Out(c.OutOrStdout()),
-		helper.Err(c.ErrOrStderr()),
+		helper.RunnerOut(c.OutOrStdout()),
+		helper.RunnerErr(c.ErrOrStderr()),
 	)
 
 	opOut, err := runner.Output([]string{"list", "items", fmt.Sprintf("--session=%s", *o.SessionToken)})

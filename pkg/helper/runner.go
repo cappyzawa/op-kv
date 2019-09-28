@@ -16,25 +16,25 @@ type runner struct {
 	In   io.Reader
 }
 
-// Opts describes options for Runner
-type Opts func(*runner)
+// RunnerOpts describes options for Runner
+type RunnerOpts func(*runner)
 
-// Path sets Path of Opts optionally
-func Path(path string) Opts {
+// RunnerPath sets RunnerPath of Opts optionally
+func RunnerPath(path string) RunnerOpts {
 	return func(o *runner) {
 		o.Path = path
 	}
 }
 
-// Out sets Out of Opts optionally
-func Out(out io.Writer) Opts {
+// RunnerOut sets RunnerOut of Opts optionally
+func RunnerOut(out io.Writer) RunnerOpts {
 	return func(o *runner) {
 		o.Out = out
 	}
 }
 
-// Err sets Err of Opts optionally
-func Err(err io.Writer) Opts {
+// RunnerErr sets RunnerErr of Opts optionally
+func RunnerErr(err io.Writer) RunnerOpts {
 	return func(o *runner) {
 		o.Err = err
 	}
@@ -48,7 +48,7 @@ type Runner interface {
 }
 
 // NewRunner initilizes runner
-func NewRunner(opts ...Opts) Runner {
+func NewRunner(opts ...RunnerOpts) Runner {
 	r := &runner{
 		Path: "op",
 		Out:  os.Stdout,
