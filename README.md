@@ -111,7 +111,7 @@ Global Flags:
 ```
 
 ```bash
-$ op-kv read read testItem
+$ op-kv read testItem
 testPassword
 ```
 
