@@ -34,26 +34,42 @@ func TestNewCmd(t *testing.T) {
 func TestOptionsRun(t *testing.T) {
 	r := &mock.Runner{}
 	p := &mock.Params{}
-	o := write.NewOptions()
-	st := "session token"
-	o.SessionToken = &st
 
 	cases := []struct {
 		name     string
 		args     []string
+		options  *write.Options
 		expect   string
 		existErr bool
 	}{
 		{
-			name:     "with zero args",
-			args:     []string{},
+			name: "with zero args",
+			args: []string{},
+			options: &write.Options{
+				Password: "password",
+				Username: "",
+			},
 			expect:   "",
 			existErr: true,
 		},
 		{
-			name:     "with key and value args",
-			args:     []string{"key", "value"},
-			expect:   fmt.Sprintf("success to write password to \"%s\"\n", "key"),
+			name: "with key and password",
+			args: []string{"key"},
+			options: &write.Options{
+				Password: "password",
+				Username: "",
+			},
+			expect:   fmt.Sprintf("success to write password (%s) and username (%s) to \"%s\"\n", "password", "", "key"),
+			existErr: false,
+		},
+		{
+			name: "with key, username and password",
+			args: []string{"key"},
+			options: &write.Options{
+				Password: "password",
+				Username: "username",
+			},
+			expect:   fmt.Sprintf("success to write password (%s) and username (%s) to \"%s\"\n", "password", "username", "key"),
 			existErr: false,
 		},
 	}
@@ -78,7 +94,9 @@ func TestOptionsRun(t *testing.T) {
 			p.MockRunner = func(opts ...helper.RunnerOpts) helper.Runner {
 				return r
 			}
-			err := o.Run(p, cc, c.args)
+			st := "session token"
+			c.options.SessionToken = &st
+			err := c.options.Run(p, cc, c.args)
 			if !c.existErr && err != nil {
 				t.Errorf("stderr should not be occurred, but actual is %v", err)
 			}
