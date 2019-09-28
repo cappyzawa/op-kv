@@ -50,9 +50,9 @@ Available Commands:
   write       Generate one password by specified item and password
 
 Flags:
-  -h, --help               help for op-kv
-  -p, --password string    password for 1password
-  -d, --subdomain string   subdomain of 1password 
+  -h, --help                 help for op-kv
+      --op-password string   password for 1password 
+  -d, --subdomain string     subdomain of 1password
 
 Use "op-kv [command] --help" for more information about a command.
 ```
@@ -87,10 +87,16 @@ $ op-kv write -h
 Generate one password by specified item and password
 
 Usage:
-  op-kv write <item> <password> [flags]
+  op-kv write <key> <value> [flags]
 
 Flags:
-  -h, --help   help for write
+  -h, --help              help for write
+  -p, --password string   register password to item(key)
+  -u, --username string   register username to item(key)
+
+Global Flags:
+      --op-password string   password for 1password ()
+  -d, --subdomain string     subdomain of 1password ()
 ```
 
 This Command is same as below.

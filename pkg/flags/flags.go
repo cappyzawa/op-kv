@@ -20,7 +20,7 @@ var (
 // AddOpOptions amends command to add flags
 func AddOpOptions(cmd *cobra.Command) {
 	cmd.PersistentFlags().StringVarP(
-		&OpPassword, "op-password", "op", os.Getenv("OP_PASSWORD"),
+		&OpPassword, "op-password", "", os.Getenv("OP_PASSWORD"),
 		"password for 1password",
 	)
 
