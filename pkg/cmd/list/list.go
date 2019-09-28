@@ -55,7 +55,7 @@ func (o *Options) Run(p cli.Params, c *cobra.Command, args []string) error {
 		helper.Err(c.ErrOrStderr()),
 	)
 
-	opOut, err := runner.Output([]string{"list", "items"})
+	opOut, err := runner.Output([]string{"list", "items", fmt.Sprintf("--session=%s", *o.SessionToken)})
 	if err != nil {
 		// op outputs err to stderr
 		return fmt.Errorf("failed to execute op command")

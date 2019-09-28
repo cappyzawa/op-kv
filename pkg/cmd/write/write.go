@@ -63,7 +63,9 @@ func (o *Options) Run(p cli.Params, c *cobra.Command, args []string) error {
 		helper.Err(c.ErrOrStderr()),
 	)
 
-	opOut, err := runner.Output([]string{"get", "template", "login"})
+	sessionFlag := fmt.Sprintf("--session=%s", *o.SessionToken)
+
+	opOut, err := runner.Output([]string{"get", "template", "login", sessionFlag})
 	if err != nil {
 		// op outputs err to stderr
 		return fmt.Errorf("failed to execute op command")
@@ -91,7 +93,7 @@ func (o *Options) Run(p cli.Params, c *cobra.Command, args []string) error {
 		return err
 	}
 
-	if _, err := runner.Output([]string{"create", "item", "login", strings.TrimSpace(string(opEncoded)), fmt.Sprintf("--title=%s", key)}); err != nil {
+	if _, err := runner.Output([]string{"create", "item", "login", strings.TrimSpace(string(opEncoded)), fmt.Sprintf("--title=%s", key), sessionFlag}); err != nil {
 		return err
 	}
 
