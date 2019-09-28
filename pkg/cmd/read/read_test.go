@@ -35,31 +35,41 @@ func TestNewCmd(t *testing.T) {
 func TestOptionsRun(t *testing.T) {
 	runner := &mock.Runner{}
 	p := &mock.Params{}
-	o := read.NewOptions()
-	st := "session token"
-	o.SessionToken = &st
 
 	cases := []struct {
 		name     string
 		args     []string
+		options  *read.Options
 		expect   string
 		existErr bool
 	}{
 		{
 			name:     "with zero args",
 			args:     []string{},
+			options:  read.NewOptions(),
 			expect:   "",
 			existErr: true,
 		},
 		{
 			name:     "with an item arg",
 			args:     []string{"test"},
+			options:  read.NewOptions(),
 			expect:   "testPassword",
+			existErr: false,
+		},
+		{
+			name: "with an item arg and table flag",
+			args: []string{"test"},
+			options: &read.Options{
+				Table: true,
+			},
+			expect:   "email@com",
 			existErr: false,
 		},
 		{
 			name:     "item is missing",
 			args:     []string{"missing item"},
+			options:  read.NewOptions(),
 			expect:   "",
 			existErr: true,
 		},
@@ -85,7 +95,9 @@ func TestOptionsRun(t *testing.T) {
 			p.MockPrinter = func(opts ...helper.PrinterOpts) helper.Printer {
 				return helper.NewPrinter(helper.PrinterOut(outStream))
 			}
-			err := o.Run(p, cc, c.args)
+			st := "session token"
+			c.options.SessionToken = &st
+			err := c.options.Run(p, cc, c.args)
 			if !c.existErr && err != nil {
 				t.Errorf("stderr should not be occurred, but actual is %v", err)
 			}

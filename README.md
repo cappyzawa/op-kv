@@ -61,26 +61,6 @@ if `-p` is not set, `$OP_PASSWORD` is used as password.
 
 And if `-d` is not set, this cli access to latest signin subdomain.
 
-### Read
-```bash
-$ op-kv read -h
-Display one password of specified item by UUID or name
-
-Usage:
-  op-kv read [<UUID>|<name>] [flags]
-
-Flags:
-  -h, --help   help for read
-```
-
-This Command is same as below.
-
-```bash
-$ op get item [<UUID>|<name>] | jq -r '.details.fields[] | select(.designation=="password").value'
-```
-
-This can adjust only _item_ subcommand.
-
 ### write
 ```bash
 $ op-kv write -h 
@@ -99,14 +79,61 @@ Global Flags:
   -d, --subdomain string     subdomain of 1password ()
 ```
 
+```bash
+$ op-kv write -p testPassword testItem
+success to write password (testPassword) and username () to "testItem"
+```
+
 This Command is same as below.
 
 ```bash
-$ D=$(op get template login | jq -c '.fields[1].value = <password>' | op encode)
-$ op create item login $D --title=<item>
+$ D=$(op get template login | jq -c '.fields[1].value = testPassword' | op encode)
+$ op create item login $D --title=testItem
 ```
 
 This can adjust only _login_ template.
+
+### Read
+```bash
+$ op-kv read -h
+Display one password of specified item by UUID or name
+
+Usage:
+  op-kv read <key> [flags]
+
+Flags:
+  -h, --help    help for read
+      --table   Print username and password of the item as Table
+
+Global Flags:
+      --op-password string   password for 1password
+  -d, --subdomain string     subdomain of 1password
+```
+
+```bash
+$ op-kv read read testItem
+testPassword
+```
+
+This Command is same as below.
+
+```bash
+$ op get item testItem | jq -r '.details.fields[] | select(.designation=="password").value'
+```
+This can adjust only _item_ subcommand.
+
+If you want to display username & password, you can use table flag.
+
+```bash
+$ op-kv write testTable -u testUsername -p testPassword
+success to write password (testPassword) and username (testUsername) to "testTable"
+
+$ op-kv read testTable --table
+| USERNAME                      | PASSWORD                                                    |
+-----------------------------------------------------------------------------------------------
+| testUsername                  | testPassword                                                |
+
+```
 
 ### list
 ```bash
