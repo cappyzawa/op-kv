@@ -3,13 +3,32 @@ package list_test
 import (
 	"bytes"
 	"io/ioutil"
+	"reflect"
 	"testing"
 
+	"github.com/cappyzawa/op-kv/pkg/cli"
 	"github.com/cappyzawa/op-kv/pkg/cmd/list"
 	"github.com/cappyzawa/op-kv/pkg/helper"
 	"github.com/cappyzawa/op-kv/pkg/mock"
 	"github.com/spf13/cobra"
 )
+
+func TestNewCmd(t *testing.T) {
+	expect := "test"
+	errStream := new(bytes.Buffer)
+	errStream.Write([]byte(expect))
+	s := &cli.Stream{
+		Err: errStream,
+	}
+	p := &mock.Params{}
+	cc := list.NewCmd(s, p)
+	if !reflect.DeepEqual(cc.ErrOrStderr(), errStream) {
+		t.Errorf("cmd's err is %#v, errStream is %#v", cc.ErrOrStderr(), errStream)
+	}
+	if cc.ErrOrStderr().(*bytes.Buffer).String() != expect {
+		t.Errorf("cc.Err should be %s", expect)
+	}
+}
 
 func TestOptionsRun(t *testing.T) {
 	r := &mock.Runner{}
