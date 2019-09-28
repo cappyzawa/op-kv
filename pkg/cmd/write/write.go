@@ -59,8 +59,8 @@ func (o *Options) Run(p cli.Params, c *cobra.Command, args []string) error {
 	value := args[1]
 
 	runner := p.Runner(
-		helper.Out(c.OutOrStdout()),
-		helper.Err(c.ErrOrStderr()),
+		helper.RunnerOut(c.OutOrStdout()),
+		helper.RunnerErr(c.ErrOrStderr()),
 	)
 
 	sessionFlag := fmt.Sprintf("--session=%s", *o.SessionToken)

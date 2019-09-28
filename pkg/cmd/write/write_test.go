@@ -56,7 +56,7 @@ func TestOptionsRun(t *testing.T) {
 			r.MockOutputWithIn = func(args []string, in string) ([]byte, error) {
 				return []byte("XXXXXXXXXXX"), nil
 			}
-			p.MockRunner = func(opts ...helper.Opts) helper.Runner {
+			p.MockRunner = func(opts ...helper.RunnerOpts) helper.Runner {
 				return r
 			}
 			err := o.Run(p, cc, c.args)

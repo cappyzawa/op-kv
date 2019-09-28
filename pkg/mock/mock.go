@@ -10,11 +10,11 @@ var _ helper.Runner = (*Runner)(nil)
 
 // Parmas mocks cli.Params
 type Params struct {
-	MockRunner func(opts ...helper.Opts) helper.Runner
+	MockRunner func(opts ...helper.RunnerOpts) helper.Runner
 }
 
 // Runner mocks Params.Runner
-func (mp *Params) Runner(opts ...helper.Opts) helper.Runner {
+func (mp *Params) Runner(opts ...helper.RunnerOpts) helper.Runner {
 	return mp.MockRunner(opts...)
 }
 

@@ -56,8 +56,8 @@ func (o *Options) Run(p cli.Params, c *cobra.Command, args []string) error {
 	}
 	item := args[0]
 	runner := p.Runner(
-		helper.Out(c.OutOrStdout()),
-		helper.Err(c.ErrOrStderr()),
+		helper.RunnerOut(c.OutOrStdout()),
+		helper.RunnerErr(c.ErrOrStderr()),
 	)
 	// Get Item
 	opOut, err := runner.Output([]string{"get", "item", item, fmt.Sprintf("--session=%s", *o.SessionToken)})
