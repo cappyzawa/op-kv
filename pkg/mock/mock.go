@@ -10,7 +10,8 @@ var _ helper.Runner = (*Runner)(nil)
 
 // Parmas mocks cli.Params
 type Params struct {
-	MockRunner func(opts ...helper.RunnerOpts) helper.Runner
+	MockRunner  func(opts ...helper.RunnerOpts) helper.Runner
+	MockPrinter func(opts ...helper.PrinterOpts) helper.Printer
 }
 
 // Runner mocks Params.Runner
@@ -38,4 +39,25 @@ func (mr *Runner) OutputWithIn(args []string, in string) ([]byte, error) {
 // Signin mocks Runner.Signin
 func (mr *Runner) Signin(subdomain, password string) (*string, error) {
 	return mr.Signin(subdomain, password)
+}
+
+// Printer mocks Params.Printer
+func (mp *Params) Printer(opts ...helper.PrinterOpts) helper.Printer {
+	return mp.MockPrinter(opts...)
+}
+
+// Printer mocks helper.Printer
+type Printer struct {
+	MockPair   func(username, password string) error
+	MockHeader func() (err error)
+}
+
+// Pair mocks Printer.Pair
+func (mp *Printer) Pair(username, password string) error {
+	return mp.MockPair(username, password)
+}
+
+// Header mocks Printer.Header
+func (mp *Printer) Header() (err error) {
+	return mp.Header()
 }

@@ -18,13 +18,13 @@ func TestPrinterPair(t *testing.T) {
 		{
 			name:     "with username & password",
 			args:     []string{"username", "password"},
-			expect:   fmt.Sprintf("| %-20s| %-60s|\n", "username", "password"),
+			expect:   fmt.Sprintf("| %-30s| %-60s|\n", "username", "password"),
 			existErr: false,
 		},
 		{
 			name:     "with looooong username & password",
 			args:     []string{"looooooooooooooooooooooooooooooooooogusername", "password"},
-			expect:   fmt.Sprintf("| %-20s| %-60s|\n", "looooooooooooooooooooooooooooooooooogusername", "password"),
+			expect:   fmt.Sprintf("| %-30s| %-60s|\n", "looooooooooooooooooooooooooooooooooogusername", "password"),
 			existErr: false,
 		},
 	}
@@ -50,8 +50,8 @@ func TestPrinterPair(t *testing.T) {
 func TestPrinterHeader(t *testing.T) {
 	outStream := new(bytes.Buffer)
 	p := helper.NewPrinter(helper.PrinterOut(outStream))
-	expectDeli := "-------------------------------------------------------------------------------------"
-	expectStr := fmt.Sprintf("| %-20s| %-60s|\n%s\n", "USERNAME", "PASSWORD", expectDeli)
+	expectDeli := "-----------------------------------------------------------------------------------------------"
+	expectStr := fmt.Sprintf("| %-30s| %-60s|\n%s\n", "USERNAME", "PASSWORD", expectDeli)
 	actual := p.Header()
 	var expectErr error = nil
 	if actual != expectErr {

@@ -12,3 +12,8 @@ var _ Params = (*OpKvParams)(nil)
 func (p *OpKvParams) Runner(opts ...helper.RunnerOpts) helper.Runner {
 	return helper.NewRunner(opts...)
 }
+
+// Printer prints outputs
+func (p *OpKvParams) Printer(opts ...helper.PrinterOpts) helper.Printer {
+	return helper.NewPrinter(opts...)
+}

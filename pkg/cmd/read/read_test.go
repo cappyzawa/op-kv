@@ -33,7 +33,7 @@ func TestNewCmd(t *testing.T) {
 }
 
 func TestOptionsRun(t *testing.T) {
-	r := &mock.Runner{}
+	runner := &mock.Runner{}
 	p := &mock.Params{}
 	o := read.NewOptions()
 	st := "session token"
@@ -54,7 +54,7 @@ func TestOptionsRun(t *testing.T) {
 		{
 			name:     "with an item arg",
 			args:     []string{"test"},
-			expect:   "password",
+			expect:   "testPassword",
 			existErr: false,
 		},
 		{
@@ -73,14 +73,17 @@ func TestOptionsRun(t *testing.T) {
 			errStream := new(bytes.Buffer)
 			cc.SetOut(outStream)
 			cc.SetErr(errStream)
-			r.MockOutput = func(args []string) ([]byte, error) {
+			runner.MockOutput = func(args []string) ([]byte, error) {
 				if strings.Contains(c.name, "missing") {
 					return nil, errors.New("missing item")
 				}
 				return ioutil.ReadFile("../../../testdata/op_get.json")
 			}
 			p.MockRunner = func(opts ...helper.RunnerOpts) helper.Runner {
-				return r
+				return runner
+			}
+			p.MockPrinter = func(opts ...helper.PrinterOpts) helper.Printer {
+				return helper.NewPrinter(helper.PrinterOut(outStream))
 			}
 			err := o.Run(p, cc, c.args)
 			if !c.existErr && err != nil {
@@ -89,8 +92,8 @@ func TestOptionsRun(t *testing.T) {
 			if c.existErr && err == nil {
 				t.Error("error should be occurred, but it doesn't occurred")
 			}
-			if outStream.String() != c.expect {
-				t.Errorf("stdout should be %v, but actual is %v", c.expect, outStream.String())
+			if !strings.Contains(outStream.String(), c.expect) {
+				t.Errorf("stdout should contain %v, but actual is %v", c.expect, outStream.String())
 			}
 		})
 	}

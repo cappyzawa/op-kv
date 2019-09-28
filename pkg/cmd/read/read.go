@@ -73,15 +73,29 @@ func (o *Options) Run(p cli.Params, c *cobra.Command, args []string) error {
 
 	fields := obj["details"].(map[string]interface{})["fields"].([]interface{})
 
+	printer := p.Printer(
+		helper.PrinterOut(c.OutOrStdout()),
+	)
+	var username, password string
 	for _, f := range fields {
 		ff := f.(map[string]interface{})
-		name, ok := ff["name"].(string)
-		if !ok || name != "password" {
+		name, ok := ff["designation"].(string)
+		if !ok {
 			continue
 		}
+
 		value := ff["value"].(string)
-		c.Printf(value)
-		return nil
+		if name == "password" {
+			password = value
+		} else if name == "username" {
+			username = value
+		}
 	}
-	return fmt.Errorf("not exist %s", item)
+
+	if username == "" && password == "" {
+		return fmt.Errorf("not exist \"%s\"", item)
+	}
+	printer.Header()
+	printer.Pair(username, password)
+	return nil
 }
