@@ -44,7 +44,7 @@ func NewCmd(s *cli.Stream, p cli.Params) *cobra.Command {
 		},
 	}
 
-	cmd.Flags().BoolVarP(&o.Table, "table", "", false, "Print username and password of the item as Table")
+	cmd.PersistentFlags().BoolVarP(&o.Table, "table", "", false, "Print username and password of the item as Table")
 	cmd.SetOutput(s.Out)
 	cmd.SetErr(s.Err)
 	return cmd
